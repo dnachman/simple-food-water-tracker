@@ -1,0 +1,8 @@
+.env
+.env.*
+!.env.example
+.sites-runtime/
+.sites-checkout/
+.sites-checkout-*/
+node_modules/
+*.tar.gz

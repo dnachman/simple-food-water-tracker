@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Food & Fluid Tracker · App map</title>
+  <style>
+    :root { color-scheme: dark; font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #141719; color: #f0f2f4; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { max-width: 980px; margin: auto; padding: 40px 28px 56px; }
+    header { border-bottom: 1px solid #424c54; padding-bottom: 28px; }
+    .eyebrow { color: #accbff; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+    h1 { font-size: clamp(30px,5vw,44px); letter-spacing: -.03em; line-height: 1.15; margin: 14px 0; }
+    h2 { font-size: 24px; line-height: 1.25; margin: 0 0 16px; }
+    h3 { font-size: 17px; margin: 0 0 8px; }
+    p { margin: 0 0 12px; }
+    .muted, small { color: #b0bac1; }
+    section { padding: 30px 0; border-bottom: 1px solid #424c54; }
+    a { color: #accbff; text-underline-offset: 3px; overflow-wrap: anywhere; }
+    a:focus-visible, summary:focus-visible { outline: 3px solid #accbff; outline-offset: 5px; }
+    code { font-size: .88em; overflow-wrap: anywhere; }
+    pre { background: #22292e; padding: 16px; border-radius: 8px; overflow-x: auto; white-space: pre-wrap; }
+    .flow { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); list-style: none; padding: 0; gap: 24px; margin: 24px 0; }
+    .flow li { position: relative; background: #22292e; border-top: 3px solid #accbff; padding: 18px; border-radius: 0 0 8px 8px; }
+    .flow li:not(:last-child)::after { content: '→'; color: #accbff; position: absolute; right: -20px; top: 40%; }
+    .flow strong { display: block; font-size: 17px; margin-bottom: 8px; }
+    .flow span { display: block; color: #b0bac1; font-size: 13px; }
+    .route { padding-left: 24px; }
+    .route li { padding: 0 0 20px 8px; }
+    .route li:last-child { padding-bottom: 0; }
+    details { padding: 14px 0; border-top: 1px solid #424c54; }
+    summary { cursor: pointer; font-weight: 600; }
+    details p { margin: 12px 0 0; }
+    footer { padding-top: 24px; font-size: 12px; color: #b0bac1; }
+    @media(max-width:640px) { main { padding: 28px 20px; } .flow { grid-template-columns: 1fr; gap: 24px; } .flow li:not(:last-child)::after { content: '↓'; right: 50%; top: auto; bottom: -26px; } }
+  </style>
+</head>
+<body><main>
+  <header>
+    <p class="eyebrow">Take-home reference · finished MVP</p>
+    <h1>Food & Fluid Tracker<br>App map</h1>
+    <p class="muted">Eight daily metrics, fast manual logging, adjustable goals, and a date-based history. The app runs in the browser; Sites hosts its static files.</p>
+  </header>
+
+  <section aria-labelledby="flow-heading">
+    <h2 id="flow-heading">Follow one tap</h2>
+    <p>The four-fluid-ounce shortcut crosses the input, saving, and display boundaries without opening a form.</p>
+    <ol class="flow" aria-label="Water logging flows from the event handler through localStorage to updated progress">
+      <li><strong>Tap +4 fl oz</strong><code>app.mjs</code><span>The quick-water handler creates a dated entry. <code>saveChange</code> reads the latest saved document.</span></li>
+      <li><strong>Save successfully</strong><code>storage.mjs</code><span><code>commitDocument</code> validates and writes the document to localStorage before the displayed saved state changes.</span></li>
+      <li><strong>See the new total</strong><code>ui.mjs</code><span><code>renderDashboard</code> sums the selected day and redraws the cards and entry list.</span></li>
+    </ol>
+    <p class="muted">Sites serves the code. Intake records stay in this browser and origin; they are not sent to an application database.</p>
+  </section>
+
+  <section>
+    <h2>Three-stop reference route</h2>
+    <p class="muted">A reference for future navigation, not a claim that an interactive code tour was completed.</p>
+    <ol class="route">
+      <li><h3>Input and orchestration</h3><a href="../sites/food-fluid-tracker/dist/app.mjs">sites/food-fluid-tracker/dist/app.mjs</a><p>Search for <code>quick-water</code> and <code>saveChange</code>. The selected date supplies the new entry's date; a failed write leaves the previous saved state unchanged.</p></li>
+      <li><h3>The persistence boundary</h3><a href="../sites/food-fluid-tracker/dist/storage.mjs">sites/food-fluid-tracker/dist/storage.mjs</a><p>Search for <code>loadDocument</code> and <code>commitDocument</code>. A missing key starts empty; invalid saved data produces an error and is preserved. Only successful writes reach the UI as saved changes.</p></li>
+      <li><h3>Visible progress</h3><a href="../sites/food-fluid-tracker/dist/ui.mjs">sites/food-fluid-tracker/dist/ui.mjs</a><p>Search for <code>renderDashboard</code> and <code>metricCard</code>. These use <code>totalsForDate</code> and <code>goalProgress</code> from <code>domain.mjs</code>, pairing bars with numbers and text status.</p></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>To change this, start here</h2>
+    <details><summary>Metric labels, units, totals, or goal comparisons</summary><p><a href="../sites/food-fluid-tracker/dist/domain.mjs">domain.mjs</a>: <code>METRICS</code>, <code>totalsForDate</code>, and <code>goalProgress</code>. The form and card rendering consume these definitions. A unit change also requires deciding how existing saved values will be treated.</p></details>
+    <details><summary>Dark palette, card spacing, or mobile full-screen forms</summary><p><a href="../sites/food-fluid-tracker/dist/styles.css">styles.css</a>: <code>:root</code>, <code>.metric</code>, and the <code>max-width:600px</code> rules. Keep text and symbols alongside color, and preserve visible keyboard focus.</p></details>
+    <details><summary>Food/fluid fields or entry corrections</summary><p><a href="../sites/food-fluid-tracker/dist/ui.mjs">ui.mjs</a>: <code>buildEntryFields</code>, <code>buildGoalFields</code>, and <code>restoreEntryFocus</code>. Event handling lives in <code>app.mjs</code>; <code>editEntry</code> and <code>removeEntry</code> in <code>domain.mjs</code> preserve stable entry identity.</p></details>
+    <details><summary>History and day rollover</summary><p><a href="../sites/food-fluid-tracker/dist/app.mjs">app.mjs</a>: <code>selectDate</code>, <code>refresh</code>, and <code>scheduleMidnight</code>. <code>localDay</code>, <code>shiftDay</code>, and <code>dateAfterRollover</code> in <code>domain.mjs</code> keep local calendar dates separate from UTC timestamps.</p></details>
+    <details><summary>Sites publishing</summary><p><a href="../sites/food-fluid-tracker/.openai/hosting.json">.openai/hosting.json</a> identifies the Site and its <code>dist</code> directory. The installed Sites helper synchronizes source, verifies the commit, packages the static files, and hands the matching artifact to private deployment. See <a href="spec.md">spec.md → Sites Publication</a>. No credentials belong in source.</p></details>
+  </section>
+
+  <section>
+    <h2>A practice to reuse</h2>
+    <p>Choose the smallest storage boundary that meets the product requirement, and verify that boundary separately from hosting. Here, same-browser saving allowed a static app with no database. <a href="../sites/food-fluid-tracker/tests/storage.test.mjs">storage.test.mjs</a> checks reopening and failure-safe writes; the local browser check confirmed saved progress after reload.</p>
+    <p>A successful deployment proves publication, not browser persistence. Localhost and the Sites URL have separate storage. Test save → reload → history at the final origin whenever you change a hosting target. The agent's hosted check reached the private sign-in gate; it did not establish authenticated hosted persistence.</p>
+    <p class="muted">A related publication check caught stale preview metadata: the completed archive was regenerated against verified source commit <code>6cc70cb060608e728553046a06eaa454220461b4</code> before deployment.</p>
+  </section>
+
+  <section>
+    <h2>Run and verify again</h2>
+    <p>From the outer project root, with Node installed:</p>
+    <pre><code>node sites/food-fluid-tracker/scripts/preview.mjs</code></pre>
+    <p>Open <a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a>. The local <a href="http://127.0.0.1:8000/__preview/mobile">mobile-layout helper</a> uses a 390 × 844 iframe; it does not replace a real-phone check.</p>
+    <pre><code>node --test sites/food-fluid-tracker/tests/*.test.mjs</code></pre>
+    <p><a href="https://food-fluid-tracker.supercrown16.chatgpt.site">Open the private Sites app</a> using your ChatGPT sign-in. Reopen this map from <code>devpost/app-map.html</code>; it needs no server or internet to read.</p>
+  </section>
+  <footer>Code snapshot: <code>6cc70cb060608e728553046a06eaa454220461b4</code>. This map can drift after code changes. No scripts, remote fonts, analytics, or external assets are required to read it. Source links assume the current workspace layout.</footer>
+</main></body>
+</html>

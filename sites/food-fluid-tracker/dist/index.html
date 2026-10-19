@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#141719">
+  <meta name="description" content="Quick food and fluid logging with flexible goals and clear daily progress.">
+  <title>Food & Fluid Tracker</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23141719'/%3E%3Cpath d='M16 5C12 11 8 15 8 20a8 8 0 0 0 16 0c0-5-4-9-8-15' fill='%23accbff'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="./" aria-label="Food and Fluid Tracker home"><span class="brand-mark" aria-hidden="true">◒</span> Food & Fluid <span class="brand-tail">Tracker</span></a><button id="open-goals" class="quiet">Daily goals <span aria-hidden="true">↗</span></button></header>
+  <main>
+    <div class="page-heading"><div><p class="eyebrow">YOUR DAILY OVERVIEW</p><h1>Daily intake</h1><p id="date-label" class="muted"></p></div><div class="date-controls" aria-label="Choose a tracking date"><button id="previous-day" class="secondary date-arrow" aria-label="Previous day">‹</button><label class="sr-only" for="selected-date">Tracking date</label><input type="date" id="selected-date"><button id="next-day" class="secondary date-arrow" aria-label="Next day">›</button><button id="go-today" class="quiet">Today</button></div></div>
+    <div id="storage-error" class="error-banner" role="alert" hidden></div>
+    <section class="actions" aria-label="Log your intake">
+      <button id="quick-water" class="water-button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3C9 8 6 11 6 15a6 6 0 0 0 12 0c0-4-3-7-6-12Z"/></svg><span>+4 fl oz water</span></button>
+      <button id="open-food" class="primary"><span aria-hidden="true">＋</span> Log food</button>
+      <button id="open-fluid" class="secondary"><span aria-hidden="true">＋</span> Log fluid</button>
+    </section>
+    <section aria-labelledby="progress-heading"><div class="section-heading"><h2 id="progress-heading">Daily progress</h2><span class="muted">Your amounts, your goals</span></div><div id="primary-metrics" class="primary-grid"></div><div id="other-metrics" class="secondary-grid"></div></section>
+    <section class="entries-section" aria-labelledby="entries-heading"><div class="section-heading"><h2 id="entries-heading" tabindex="-1">Entries</h2><span id="entry-count" class="muted"></span></div><div id="entries"></div></section>
+    <footer>Saved in this browser <span aria-hidden="true">·</span> Goals are yours to set</footer>
+  </main>
+  <div id="notice" class="notice" role="status" aria-live="polite"></div>
+  <dialog id="entry-dialog" aria-labelledby="entry-title"><form id="entry-form" novalidate><div class="dialog-top"><div><p class="eyebrow" id="entry-kind"></p><h2 id="entry-title"></h2></div><button type="button" class="close-button" data-close="entry-dialog" aria-label="Close entry form">×</button></div><div class="dialog-body"><p id="entry-date" class="form-date"></p><p id="entry-error" class="form-error" role="alert" hidden></p><div id="entry-fields"></div></div><div class="dialog-bottom"><button type="button" class="secondary" data-close="entry-dialog">Cancel</button><button class="primary" type="submit">Save entry</button></div></form></dialog>
+  <dialog id="goals-dialog" aria-labelledby="goals-title"><form id="goals-form" novalidate><div class="dialog-top"><div><p class="eyebrow">MAKE IT YOURS</p><h2 id="goals-title">Daily goals</h2></div><button type="button" class="close-button" data-close="goals-dialog" aria-label="Close goal settings">×</button></div><div class="dialog-body"><p class="muted form-intro">Choose a minimum to reach or a limit to stay within. Leave a value blank to track just the total.</p><p id="goals-error" class="form-error" role="alert" hidden></p><div id="goal-fields"></div></div><div class="dialog-bottom"><button type="button" class="secondary" data-close="goals-dialog">Cancel</button><button class="primary" type="submit">Save goals</button></div></form></dialog>
+  <noscript><p class="error-banner">Enable JavaScript to log intake and view saved entries.</p></noscript>
+</body>
+</html>
